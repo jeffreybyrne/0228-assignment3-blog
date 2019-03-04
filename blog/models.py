@@ -9,4 +9,4 @@ class Article(models.Model):
     author = models.CharField(max_length=255)
 
     def __str__(self):
-        return "\"{}\" by {} ".format(self.title, self.author)
+        return "\"{}\" by {}".format(self.title, self.author)

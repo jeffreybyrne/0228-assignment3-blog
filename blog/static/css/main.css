@@ -1,0 +1,50 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.main-title {
+  font-family: 'Crete Round', serif;
+  color: #003E7E;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.article-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.blog-article {
+  padding: 0 20px;
+}
+
+.article-title {
+  text-align: center;
+  text-decoration: none;
+}
+
+.article-body {
+  font-family: 'Mukta', sans-serif;
+  margin: auto 10px;
+}
+
+.home-link {
+  text-align: center;
+}
+
+.my-footer {
+  font-family: 'Laila', serif;
+  color: #003E7E;
+  background-color: #f46842;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
