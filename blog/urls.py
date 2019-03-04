@@ -21,5 +21,5 @@ from blog.views import home_page, blog_post
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home_page),
-    path('post/<int:id>', blog_post)
+    path('post/<int:id>', blog_post, name='blog_post')
 ]
