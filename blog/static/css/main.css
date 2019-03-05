@@ -13,6 +13,9 @@ body {
   text-align: center;
 }
 
+.byline {
+  font-size: 0.75em;
+}
 
 .article-list {
   display: grid;
@@ -36,8 +39,6 @@ body {
   }
 }
 
-
-
 .blog-article {
   padding: 0 20px;
   display: grid;
@@ -46,7 +47,19 @@ body {
 
 .article-title {
   text-align: center;
+}
+
+.article-title a {
   text-decoration: none;
+}
+
+.article-title a:focus {
+  color: green;
+}
+
+.article-title a:hover {
+  color: #003E7E;
+  text-decoration: underline;
 }
 
 .article-body {

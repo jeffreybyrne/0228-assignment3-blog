@@ -3,7 +3,7 @@
   <section class='article-list'>
     {% for article in articles %}
     <article class="blog-article">
-      <h2 class='article-title'><a href="{% url 'blog_post' id=article.id %}">{{ article }}</a></h2>
+      <h2 class='article-title'><a href="{% url 'blog_post' id=article.id %}">{{ article.title }}</a><span  class='byline'><br>by<br> {{ article.author }}</span></h2>
       <p class='article-body'>{{ article.body }}</p>
     </article>
     {% endfor %}
