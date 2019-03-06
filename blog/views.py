@@ -1,6 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from blog.models import Article
+from blog.models import Article, Comment
 import datetime
 
 
@@ -18,10 +18,20 @@ def home_page_redirect(request):
 
 def blog_post(request, id):
     post = get_object_or_404(Article, pk=id)
-    context = {'article': post}
+    if post.comments.count() > 0:
+        comment_count = True
+    else:
+        comment_count = False
+    context = {'article': post, 'comments': comment_count}
     html = render(request, 'post.html', context)
     return HttpResponse(html)
 
 
-def new_comment(request):
-    pass
+def create_comment(request):
+    comment_name = request.POST['comment_name']
+    comment_message = request.POST['comment_message']
+    comment_article = Article.objects.get(pk=request.POST['post_num'])
+    new_comment = Comment.objects.create(name=comment_name,
+                                         message=comment_message,
+                                         article=comment_article)
+    return HttpResponseRedirect('/post/' + request.POST['post_num'])
