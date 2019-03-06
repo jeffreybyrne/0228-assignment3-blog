@@ -21,3 +21,7 @@ def blog_post(request, id):
     context = {'article': post}
     html = render(request, 'post.html', context)
     return HttpResponse(html)
+
+
+def new_comment(request):
+    pass

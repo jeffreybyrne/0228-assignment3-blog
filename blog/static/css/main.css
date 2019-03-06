@@ -85,3 +85,22 @@ body {
   padding-top: 10px;
   padding-bottom: 5px;
 }
+
+.comment-section {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.name-section {
+  grid-column: 2 / 3;
+}
+
+.message-section {
+  grid-column: 3 / 4;
+}
+
+.button-section {
+  grid-column: 2 / 4;
+  justify-self: center;
+}
