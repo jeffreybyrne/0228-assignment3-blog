@@ -18,8 +18,12 @@
 <section>
   <form action="{% url 'create_comment' %}" method="post">
   {% csrf_token %}
-    <input type="hidden" name="post_num" value="{{ article.pk }}">
-    {{ form }}
+    <!-- <input type="hidden" name="article" value="{{ article.pk }}"> -->
+    {{ form.as_p }}
+      <!-- {{ form.name.label_tag }}
+      {{ form.name }}
+      {{ form.message.label_tag }}
+      {{ form.message }} -->
     <!-- <section  class='new-comment-section'>
       <section class='new-comment-name-section'>
         <label for="comment_name">

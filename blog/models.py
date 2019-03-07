@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 
+
 class Article(models.Model):
     title = models.CharField(max_length=255)
     body = models.TextField()
@@ -10,6 +11,13 @@ class Article(models.Model):
 
     def __str__(self):
         return "\"{}\" by {}".format(self.title, self.author)
+
+
+class ArticleForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ['author', 'title', 'body', 'draft']
 
 
 class Comment(models.Model):
@@ -23,4 +31,5 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ['name', 'message']
+        widgets = {'article': forms.HiddenInput()}
+        fields = ['name', 'message', 'article']
