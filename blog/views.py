@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from blog.models import Article, Comment
+from blog.models import Article, Comment, CommentForm
 import datetime
 
 
@@ -22,7 +22,7 @@ def blog_post(request, id):
         comment_count = True
     else:
         comment_count = False
-    context = {'article': post, 'comments': comment_count}
+    context = {'article': post, 'comments': comment_count, 'form': CommentForm()}
     html = render(request, 'post.html', context)
     return HttpResponse(html)
 

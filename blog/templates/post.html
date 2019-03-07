@@ -19,7 +19,8 @@
   <form action="{% url 'create_comment' %}" method="post">
   {% csrf_token %}
     <input type="hidden" name="post_num" value="{{ article.pk }}">
-    <section  class='new-comment-section'>
+    {{ form }}
+    <!-- <section  class='new-comment-section'>
       <section class='new-comment-name-section'>
         <label for="comment_name">
           <span>Name:</span>
@@ -33,7 +34,7 @@
           <br>
           <textarea name="comment_message" rows="8" cols="30"></textarea>
         </label>
-      </section>
+      </section> -->
       <section class='button-section'>
         <button type="submit" name="button">Add Comment</button>
       </section>

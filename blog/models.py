@@ -1,5 +1,5 @@
 from django.db import models
-
+from django import forms
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
@@ -17,3 +17,10 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
+
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['name', 'message']
