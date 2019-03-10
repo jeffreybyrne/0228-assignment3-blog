@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<section>
+  <form action="{% url 'create_article' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <section class='button-section'>
+      <button type="submit" name="button">Add Comment</button>
+    </section>
+  </form>
+</section>
+{% endblock %}

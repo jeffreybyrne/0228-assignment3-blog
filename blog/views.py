@@ -1,7 +1,7 @@
 # import ipdb
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from blog.models import Article, Comment, CommentForm
+from blog.models import Article, CommentForm, ArticleForm
 import datetime
 
 
@@ -29,6 +29,13 @@ def blog_post(request, id):
     return HttpResponse(html)
 
 
+def new_article_page(request):
+    new_form = ArticleForm()
+    context = {'form': new_form}
+    html = render(request, 'create.html', context)
+    return HttpResponse(html)
+
+
 def create_comment(request):
     # comment_name = request.POST['comment_name']
     # comment_message = request.POST['comment_message']
@@ -50,4 +57,12 @@ def create_comment(request):
 
 
 def create_article(request):
-    return redirect(home_page)
+    # ipdb.set_trace()
+    form = ArticleForm(request.POST)
+    if form.is_valid():
+        new_article = form.save()
+        return HttpResponseRedirect('/post/' + str(new_article.pk))
+    else:
+        print(form.errors)
+        response = render(request, 'index.html')
+        return HttpResponse(response)

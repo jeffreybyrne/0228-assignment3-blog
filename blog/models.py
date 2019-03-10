@@ -1,5 +1,7 @@
 from django.db import models
 from django import forms
+from django.core.exceptions import ValidationError
+from datetime import datetime, date
 
 
 class Article(models.Model):
@@ -9,6 +11,12 @@ class Article(models.Model):
     published_date = models.DateField()
     author = models.CharField(max_length=255)
 
+    def clean(self):
+        if len(self.body) < 2:
+            raise ValidationError('The body must be more than one character.')
+        elif self.draft and self.published_date > date.today():
+            raise ValidationError('If this is a draft, the publish date must be in the future.')
+
     def __str__(self):
         return "\"{}\" by {}".format(self.title, self.author)
 
@@ -17,7 +25,7 @@ class ArticleForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ['author', 'title', 'body', 'draft']
+        fields = ['author', 'title', 'body', 'draft', 'published_date']
 
 
 class Comment(models.Model):
