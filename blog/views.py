@@ -1,7 +1,9 @@
 # import ipdb
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
 from blog.models import Article, CommentForm, ArticleForm
+from blog.forms import LoginForm
 import datetime
 
 
@@ -66,3 +68,27 @@ def create_article(request):
         print(form.errors)
         response = render(request, 'index.html')
         return HttpResponse(response)
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            pw = form.cleaned_data['password']
+            user = authenticate(username=username, password=pw)
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect('/home')
+            else:
+                form.add_error('username', 'Login failed')
+    else:
+        form = LoginForm()
+    context = {'form': form}
+    response = render(request, 'login.html', context)
+    return HttpResponse(response)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/home')
