@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from datetime import datetime, date
 
 
@@ -10,11 +11,12 @@ class Article(models.Model):
     draft = models.BooleanField()
     published_date = models.DateField()
     author = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pictures', default=1)
 
     def clean(self):
         if len(self.body) < 2:
             raise ValidationError('The body must be more than one character.')
-        elif self.draft and self.published_date > date.today():
+        elif self.draft and self.published_date < date.today():
             raise ValidationError('If this is a draft, the publish date must be in the future.')
 
     def __str__(self):

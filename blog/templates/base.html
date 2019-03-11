@@ -13,9 +13,10 @@
       <h1 class='main-title'>Welcome to Jeff's Blog!</h1>
     </header>
     <nav>
+      <p><a href="{% url 'home' %}">Home</a></p>
       {% if request.user.is_authenticated %}
       <p><a href="{% url 'logout' %}">Log Out</a></p>
-
+      <p><a href="{% url 'new_article_page' %}">Create Post</a></p>
       {% else %}
       <p><a href="{% url 'login' %}">Log In</a></p>
       {% endif %}

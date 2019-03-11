@@ -59,15 +59,25 @@ def create_comment(request):
 
 
 def create_article(request):
-    # ipdb.set_trace()
-    form = ArticleForm(request.POST)
-    if form.is_valid():
-        new_article = form.save()
-        return HttpResponseRedirect('/post/' + str(new_article.pk))
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.user = request.user
+            new_article = form.save()
+            return HttpResponseRedirect('/post/' + str(new_article.id))
     else:
-        print(form.errors)
-        response = render(request, 'index.html')
-        return HttpResponse(response)
+        form = ArticleForm()
+    response = render(request, 'create.html', {'form': form})
+    return HttpResponse(response)
+    # ipdb.set_trace()
+    # form = ArticleForm(request.POST)
+    # if form.is_valid():
+    #     new_article = form.save()
+    #     return HttpResponseRedirect('/post/' + str(new_article.pk))
+    # else:
+    #     print(form.errors)
+    #     response = render(request, 'index.html')
+    #     return HttpResponse(response)
 
 
 def login_view(request):
