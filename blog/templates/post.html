@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% if request.user == article.user %}
+  <p><a href="{% url 'edit_blog_post' id=article.pk %}">Edit Article</a></p>
+{% endif %}
 <h2 class='article-title'>{{ article }}</h2>
 <p class='article-body'>{{ article.body }}</p>
 

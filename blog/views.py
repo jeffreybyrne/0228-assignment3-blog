@@ -115,4 +115,18 @@ def logout_view(request):
 
 
 def edit_blog_post(request, id):
-    pass
+    article = get_object_or_404(Article, pk=id, user=request.user)
+    if request.method == 'GET':
+        form = ArticleForm(instance=article)
+        context = {'form': form, 'article': article}
+        response = render(request, 'edit_post.html', context)
+        return HttpResponse(response)
+    elif request.method == 'POST':
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            updated_article = form.save()
+            return HttpResponseRedirect('/post/{}'.format(article.id))
+        else:
+            context = {'form': form, 'article': article}
+            response = render(request, 'edit_post.html', context)
+            return HttpResponse(response)
