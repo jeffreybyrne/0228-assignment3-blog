@@ -16,16 +16,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from blog.views import home_page, blog_post, home_page_redirect, create_comment, create_article, new_article_page, login_view, logout_view
+from blog.views import home_page, blog_post, home_page_redirect, create_comment, login_view, logout_view, edit_blog_post, new_article
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', home_page, name='home'),
     path('', home_page_redirect),
     path('post/<int:id>', blog_post, name='blog_post'),
+    path('post/<int:id>/edit', edit_blog_post, name='edit_blog_post'),
     path('post/comment/', create_comment, name='create_comment'),
-    path('create/', new_article_page, name='new_article_page'),
-    path('post/article/', create_article, name='create_article'),
-    path('login/', login_view, name='login'),
+    path('create/', new_article, name='new_article_page'),
+    path('create/', new_article, name='create_article'),
+    # path('post/article/', create_article, name='create_article'),
+    path('accounts/login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
 ]

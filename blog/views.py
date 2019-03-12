@@ -2,6 +2,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from blog.models import Article, CommentForm, ArticleForm
 from blog.forms import LoginForm
 import datetime
@@ -31,11 +32,40 @@ def blog_post(request, id):
     return HttpResponse(html)
 
 
-def new_article_page(request):
-    new_form = ArticleForm()
-    context = {'form': new_form}
-    html = render(request, 'create.html', context)
-    return HttpResponse(html)
+# def new_article_page(request):
+#     new_form = ArticleForm()
+#     context = {'form': new_form}
+#     html = render(request, 'create.html', context)
+#     return HttpResponse(html)
+#
+
+@login_required
+def create_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.user = request.user
+            new_article = form.save()
+            return HttpResponseRedirect('/post/' + str(new_article.id))
+    else:
+        form = ArticleForm()
+    response = render(request, 'create.html', {'form': form})
+    return HttpResponse(response)
+
+
+@login_required
+def new_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            new_article = form.save()
+            new_article.user = request.user
+            new_article.save()
+            return HttpResponseRedirect('/post/{}'.format(new_article.id))
+    else:
+        form = ArticleForm()
+    response = render(request, 'create.html', {'form': form})
+    return HttpResponse(response)
 
 
 def create_comment(request):
@@ -58,29 +88,9 @@ def create_comment(request):
         return HttpResponse(response)
 
 
-def create_article(request):
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            form.user = request.user
-            new_article = form.save()
-            return HttpResponseRedirect('/post/' + str(new_article.id))
-    else:
-        form = ArticleForm()
-    response = render(request, 'create.html', {'form': form})
-    return HttpResponse(response)
-    # ipdb.set_trace()
-    # form = ArticleForm(request.POST)
-    # if form.is_valid():
-    #     new_article = form.save()
-    #     return HttpResponseRedirect('/post/' + str(new_article.pk))
-    # else:
-    #     print(form.errors)
-    #     response = render(request, 'index.html')
-    #     return HttpResponse(response)
-
-
 def login_view(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -102,3 +112,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/home')
+
+
+def edit_blog_post(request, id):
+    pass
